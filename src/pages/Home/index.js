@@ -1,14 +1,37 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity} from 'react-native';
+import React, { Component, useState } from 'react';
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity, FlatList} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-const statusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 22 : 64;
+const statusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 25 : 64;
+
+const list = [{
+  id: 1,
+  label: 'Boleto',
+  value: '195,60',
+  date: '17/09/2022',
+  type: 1, //despesas
+},
+{
+  id: 2,
+  label: 'Pix cliente',
+  value: '1.500,26',
+  date: '01/10,2022',
+  type: 2,
+},
+{
+  id: 3,
+  label: 'Folha de pagamento',
+  value: '1.259,00',
+  date: '05/10/2022',
+  type: 1, // Receitas / Entradas
+}];
 
 export default function Home() {
   return(
     <View style={styles.container}>
       <Header />
       <Baleance />
+      <Movement />
     </View>
   )
 }
@@ -33,24 +56,45 @@ class Baleance extends Component{
     return (
       <View style={styles.baleanceContainer}>
 
-        <View style={styles.item}>
+          <View style={styles.item}>
             <Text style={styles.itemTitle}>Saldo</Text>
             <View style={styles.contentBalenace}>
               <Text style={styles.currencySymbol}>R$</Text>
               <Text style={styles.balance}>234,95</Text>
             </View>
-        </View>
+          </View>
 
-        <View style={styles.item}>
+          <View style={styles.item}>
             <Text style={styles.itemTitle}>Gastos</Text>
             <View style={styles.contentBalenace}>
               <Text style={styles.currencySymbol}>R$</Text>
               <Text style={styles.expenses}>52,30</Text>
             </View>
-        </View>
+          </View>
 
       </View>
     );
+  }
+}
+
+class Movement extends Component{
+  render(){
+    return (  
+      <View style={styles.movementContainer}>
+        <Text style={styles.lastBalance}>Ultimas Movimentações</Text>
+          <TouchableOpacity activeOpacity={0.9}>
+            <FlatList style={styles.list} 
+              data={list} keyExtractor={ (item) => String(item.id)} 
+              showsHorizontalScrollIndicator={false} 
+              renderItem={ ({item}) => 
+                <Text style = {styles.listMovement}>
+                  <Text style = {item.type == 2 ? styles.positive : styles.negative}>{item.date} | {item.label} - {item.value}</Text>
+                </Text>
+              }>
+                </FlatList>
+          </TouchableOpacity>
+      </View>
+    )
   }
 }
 
@@ -88,7 +132,6 @@ const styles = StyleSheet.create({
   },
   baleanceContainer: {
     backgroundColor: "#fff",
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingStart: 18,
@@ -96,9 +139,10 @@ const styles = StyleSheet.create({
     marginTop: -24,
     marginStart: 14,
     marginEnd: 14,
-    borderRadius: 4,
+    borderRadius: 8,
     paddingTop: 22,
-    paddingBottom: 22
+    paddingBottom: 22,
+    zIndex: 99
   }, 
   itemTitle: {
     fontSize: 20,
@@ -119,5 +163,34 @@ const styles = StyleSheet.create({
   expenses: {
     fontSize: 22,
     color: "#e74c3c"
+  },
+  lastBalance: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginTop: 14,
+    marginLeft: 14,
+    marginRight: 14,
+  },
+  listMovement: {
+    marginTop: 10,
+    marginLeft: 14,
+    marginBottom: 12,
+    fontSize: 15,
+    fontWeight: 'bold',
+    borderBottomWidth: 1,
+    borderBottomColor: "#DADADA",
+  },
+  positive: {
+    color: "#2ecc71"
+  },
+  negative: {
+    color: "#e74c3c"
+  },
+  hidden: {
+    marginTop: 6,
+    width: 80,
+    height: 10,
+    backgroundColor: "#DADADA",
+    borderRadius: 8
   }
 })
