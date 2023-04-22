@@ -1,6 +1,6 @@
-import React, { Component, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, FlatList} from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity, FlatList, ScrollView} from 'react-native';
+import { Feather, AntDesign } from '@expo/vector-icons';
 
 const statusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight + 25 : 64;
 
@@ -31,6 +31,7 @@ export default function Home() {
     <View style={styles.container}>
       <Header />
       <Baleance />
+      <Actions />
       <Movement />
     </View>
   )
@@ -75,6 +76,52 @@ class Baleance extends Component{
       </View>
     );
   }
+}
+
+class Actions extends Component{
+  render(){
+    return(
+      <ScrollView style = {styles.actionsContainer} horizontal={true} showsVerticalScrollIndicator={false}>
+          <TouchableOpacity style={styles.actionButton}>
+              <View>
+                <AntDesign name='addfolder' size={26} color="#000"/>
+              </View>
+              <Text style={styles.labelButton}>Entradas</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton}>
+              <View>
+                <AntDesign name='addfolder' size={26} color="#000"/>
+              </View>
+              <Text style={styles.labelButton}>Saidas</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton}>
+              <View>
+                <AntDesign name='addfolder' size={26} color="#000"/>
+              </View>
+              <Text style={styles.labelButton}>Boletos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton}>
+              <View>
+                <AntDesign name='addfolder' size={26} color="#000"/>
+              </View>
+              <Text style={styles.labelButton}>Pix</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton}>
+              <View>
+                <AntDesign name='addfolder' size={26} color="#000"/>
+              </View>
+              <Text style={styles.labelButton}>Empresas</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton}>
+              <View>
+                <AntDesign name='addfolder' size={26} color="#000"/>
+              </View>
+              <Text style={styles.labelButton}>Investimento</Text>
+          </TouchableOpacity>
+      </ScrollView>
+    )
+  }
+
 }
 
 class Movement extends Component{
@@ -164,6 +211,30 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: "#e74c3c"
   },
+  actionsContainer: {
+    maxHeight: 84,
+    marginBottom: 14,
+    marginTop: 18,
+    paddingEnd: 14,
+    paddingStart: 14
+  },
+  actionButton: {
+    alignItems: 'center',
+    marginRight: 32
+  },
+  areaButton: {
+    backgroundColor: '#ecf0f1',
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  labelButton: {
+    marginTop: 4,
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
   lastBalance: {
     fontWeight: 'bold',
     fontSize: 18,
@@ -193,4 +264,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#DADADA",
     borderRadius: 8
   }
-})
+});
